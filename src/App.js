@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { v4 as uuid } from 'uuid';
+import './App.css';
 
 const itemsFromBackend = [
 	{
@@ -75,45 +76,25 @@ const onDragEnd = (result, columns, setColumns) => {
 	}
 };
 
-//Changes the tab size
-
 function App() {
 	const [columns, setColumns] = useState(columnsFromBackend);
 
 	return (
-		<div
-			style={{
-				display: 'flex',
-				justifyContent: 'center',
-				height: '100%',
-			}}>
+		<div className='main'>
 			<DragDropContext
 				onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
 				{Object.entries(columns).map(([columnId, column], index) => {
 					return (
-						<div
-							style={{
-								display: 'flex',
-								flexDirection: 'column',
-								alignItems: 'center',
-							}}
-							key={columnId}>
+						<div className='body1' key={columnId}>
 							<h2>{column.name}</h2>
-							<div style={{ margin: 8 }}>
+							<div className='vertical'>
 								<Droppable droppableId={columnId} key={columnId}>
 									{(provided, snapshot) => {
 										return (
 											<div
 												{...provided.droppableProps}
 												ref={provided.innerRef}
-												style={{
-													background: snapshot.isDraggingOver
-														? 'lightblue'
-														: 'lightgrey',
-													padding: 4,
-													width: 250,
-													minHeight: 500,
-												}}>
+												className={`box ${column.items.length && 'bg-color'}`}>
 												{column.items.map((item, index) => {
 													return (
 														<Draggable
@@ -123,18 +104,13 @@ function App() {
 															{(provided, snapshot) => {
 																return (
 																	<div
+																		//className='box1'
+																		className='boxes'
 																		ref={provided.innerRef}
 																		{...provided.draggableProps}
 																		{...provided.dragHandleProps}
+																		//className='box2'
 																		style={{
-																			userSelect: 'none',
-																			padding: 16,
-																			margin: '0 0 8px 0',
-																			minHeight: '50px',
-																			backgroundColor: snapshot.isDragging
-																				? '#263B4A'
-																				: '#456C86',
-																			color: 'white',
 																			...provided.draggableProps.style,
 																		}}>
 																		{item.content}
