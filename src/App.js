@@ -75,6 +75,8 @@ const onDragEnd = (result, columns, setColumns) => {
 	}
 };
 
+//Changes the tab size
+
 function App() {
 	const [columns, setColumns] = useState(columnsFromBackend);
 
